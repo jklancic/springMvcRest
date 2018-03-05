@@ -6,18 +6,18 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import guru.springfamework.domain.Customer;
 import guru.springfamework.services.CustomerService;
 
-@Controller
+@RestController
 @RequestMapping("api/v1/customers")
 public class CustomerController {
 	
@@ -29,22 +29,26 @@ public class CustomerController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Customer>> getAllCustomers() {
-		return new ResponseEntity<List<Customer>>(customerService.getAllCustomers(), HttpStatus.OK);
+	@ResponseStatus(HttpStatus.OK)
+	public List<Customer> getAllCustomers() {
+		return customerService.getAllCustomers();
 	}
 
 	@GetMapping("/id/{id}")
-	public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
-		return new ResponseEntity<Customer>(customerService.getCustomer(id), HttpStatus.OK);
+	@ResponseStatus(HttpStatus.OK)
+	public Customer getCustomerById(@PathVariable Long id) {
+		return customerService.getCustomer(id);
 	}
 
 	@PostMapping("/post")
-	public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer) {
-		return new ResponseEntity<Customer>(customerService.saveCustomer(customer), HttpStatus.CREATED);
+	@ResponseStatus(HttpStatus.CREATED)
+	public Customer saveCustomer(@RequestBody Customer customer) {
+		return customerService.saveCustomer(customer);
 	}
 	
 	@GetMapping("error")
-	public ResponseEntity<Customer> createError() {
+	@ResponseStatus(HttpStatus.OK)
+	public Customer createError() {
 		throw new EntityNotFoundException("Testing exception handling and throwing exception.");	
 	}
 }
