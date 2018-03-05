@@ -22,4 +22,15 @@ public class CustomerServiceImpl implements CustomerService {
 	public List<Customer> getAllCustomers() {
 		return customerRepository.findAll();
 	}
+
+	@Override
+	public Customer getCustomer(Long id) {
+		return customerRepository.findById(id).isPresent() ? customerRepository.findById(id).get() : new Customer();
+	}
+
+	@Override
+	public Customer saveCustomer(Customer customer) {
+		Customer savedCustomer = customerRepository.save(customer);
+		return savedCustomer;
+	}
 }

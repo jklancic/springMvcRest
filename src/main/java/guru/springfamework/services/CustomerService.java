@@ -7,4 +7,8 @@ import guru.springfamework.domain.Customer;
 public interface CustomerService {
 	
 	List<Customer> getAllCustomers();
+
+	Customer getCustomer(Long id);
+	
+	Customer saveCustomer(Customer customer);
 }
