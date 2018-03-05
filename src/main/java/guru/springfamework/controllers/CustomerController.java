@@ -2,6 +2,8 @@ package guru.springfamework.controllers;
 
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,5 +41,10 @@ public class CustomerController {
 	@PostMapping("/post")
 	public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer) {
 		return new ResponseEntity<Customer>(customerService.saveCustomer(customer), HttpStatus.CREATED);
+	}
+	
+	@GetMapping("error")
+	public ResponseEntity<Customer> createError() {
+		throw new EntityNotFoundException("Testing exception handling and throwing exception.");	
 	}
 }
